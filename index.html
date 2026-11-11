@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="id" class="dark scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAUZAN ALKAUTSAR WARIZ // 2517052802017 - Quantum Matrix Terminal USTI</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            obsidian: '#020b08',
+            panelDark: '#041812',
+            emeraldMatrix: '#10b981',
+            cyanGlow: '#06b6d4',
+            toxicMint: '#34d399',
+          },
+          fontFamily: {
+            orbitron: ['Orbitron', 'sans-serif'],
+            inter: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts: Orbitron, Inter, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700;800&family=Orbitron:wght@600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    body {
+      background-color: #020b08;
+      color: #ecfdf5;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      padding-bottom: 90px; /* Space for bottom floating dock */
+    }
+    
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #020b08; }
+    ::-webkit-scrollbar-thumb { background: #047857; border-radius: 3px; }
+
+    .matrix-grid {
+      background-size: 32px 32px;
+      background-image: 
+        linear-gradient(to right, rgba(16, 185, 129, 0.06) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(6, 182, 212, 0.06) 1px, transparent 1px);
+    }
+
+    .cyber-panel {
+      background: rgba(4, 24, 18, 0.82);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7), inset 0 0 15px rgba(16, 185, 129, 0.08);
+      clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+    }
+
+    .tilt-wrapper { perspective: 1000px; }
+    .tilt-inner { transition: transform 0.15s ease-out; will-change: transform; }
+
+    .laser-scan {
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, #10b981, #06b6d4, transparent);
+      box-shadow: 0 0 12px #10b981;
+      animation: scan-move 2.8s ease-in-out infinite alternate;
+    }
+    @keyframes scan-move {
+      0% { top: 0%; opacity: 0.2; } 50% { opacity: 1; } 100% { top: 100%; opacity: 0.2; }
+    }
+  </style>
+</head>
+<body class="relative min-h-screen matrix-grid">
+
+  <!-- Interactive Canvas Vector Mesh -->
+  <canvas id="particleCanvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
+
+  <!-- TOP MINIMAL STATUS HEADER -->
+  <header class="sticky top-0 z-30 w-full bg-slate-950/80 backdrop-blur-xl border-b border-emerald-500/20 px-4 sm:px-8 py-3.5 flex items-center justify-between">
+    <div class="flex items-center space-x-3">
+      <div class="w-8 h-8 rounded bg-emerald-950 border border-emerald-500/50 flex items-center justify-center text-emerald-400 font-bold font-orbitron">
+        Q
+      </div>
+      <div>
+        <div class="font-orbitron font-bold text-xs sm:text-sm text-white tracking-widest flex items-center gap-2">
+          <span>FAUZAN ALKAUTSAR WARIZ</span>
+          <span class="text-[9px] px-1.5 py-0.5 rounded bg-emerald-900/60 text-emerald-300 font-mono">2517052802017</span>
+        </div>
+        <p class="text-[10px] font-mono text-emerald-400/80">FAKULTAS TEKNIK DAN INFORMATIKA — TEKNIK INFORMATIKA USTI</p>
+      </div>
+    </div>
+
+    <!-- Live Telemetry Stats -->
+    <div class="flex items-center space-x-4 text-xs font-mono">
+      <div class="hidden sm:flex items-center space-x-2 text-emerald-400">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+        <span id="liveClock">00:00:00 UTC</span>
+      </div>
+      <button onclick="toggleSFX()" id="sfxBtn" class="px-3 py-1 rounded bg-slate-900 border border-emerald-500/40 text-[11px] font-mono text-emerald-300 hover:border-emerald-400 transition-all flex items-center gap-1.5">
+        <i class="fa-solid fa-volume-high text-xs"></i>
+        <span id="sfxText">SFX: ON</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN VIEW SWITCHER CONTAINER -->
+  <main class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    
+    <!-- ==================== VIEW 1: BERANDA ==================== -->
+    <section id="view-beranda" class="spa-view block space-y-10">
+      
+      <!-- Split 2-Column Hero: Terminal CLI (Left) + Quantum Reactor (Right) -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        
+        <!-- Left: Interactive CLI Console -->
+        <div class="lg:col-span-7 space-y-6">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-emerald-950/80 border border-emerald-500/40 text-xs font-mono text-emerald-300">
+            <i class="fa-solid fa-microchip"></i>
+            <span>PEMROGRAMAN WEB I // UNIVERSITAS SAINS DAN TEKNOLOGI INDONESIA</span>
+          </div>
+
+          <h1 class="font-orbitron text-3xl sm:text-5xl font-black text-white leading-tight tracking-wide">
+            QUANTUM <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">TERMINAL</span> ENGINE
+          </h1>
+
+          <!-- Live Simulated Terminal CLI Window -->
+          <div class="rounded-xl bg-slate-950 border border-emerald-500/40 p-4 font-mono text-xs shadow-2xl space-y-2 relative overflow-hidden">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-2 text-[10px] text-slate-500">
+              <span class="flex items-center gap-1.5">
+                <span class="w-2.5 h-2.5 rounded-full bg-rose-500 inline-block"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block"></span>
+                <span class="ml-2 text-slate-400">bash — session: #ust-2517</span>
+              </span>
+              <span>NODE: quantum-core-01</span>
+            </div>
+            <div class="text-emerald-400 space-y-1 text-[11px] leading-relaxed">
+              <p><span class="text-cyan-400">fauzan@usti-matrix:~$</span> init_environment --user="Fauzan Alkautsar Wariz"</p>
+              <p class="text-slate-400">> Loading Web Components: HTML5 Semantic, Tailwind CDN, Web Audio Synth... [OK]</p>
+              <p class="text-slate-400">> Connecting to USTI Academic Mainframe at port 8080... [CONNECTED]</p>
+              <p class="text-emerald-300">> System Ready: Single Page Application (SPA) Active.</p>
+              <p class="text-cyan-300 flex items-center">
+                <span>fauzan@usti-matrix:~$</span>
+                <span class="ml-2 text-white font-bold" id="cliType"></span>
+                <span class="animate-pulse ml-0.5 text-emerald-400">█</span>
+              </p>
+            </div>
+          </div>
+
+          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed font-light">
+            Sistem web futuristik bertema konsol matriks rekayasa komputer. Dirancang dengan tata letak konsol perintah terpisah, audio sintetis osilator ganda, dan kartu akses digital terenkripsi untuk mahasiswa Teknik Informatika USTI.
+          </p>
+
+          <div class="flex flex-wrap gap-4 pt-2">
+            <button onclick="switchTab('datadiri')" class="px-6 py-3 rounded-lg font-mono text-xs font-bold text-slate-950 bg-gradient-to-r from-emerald-400 to-cyan-400 hover:from-emerald-300 hover:to-cyan-300 shadow-[0_0_20px_rgba(16,185,129,0.5)] transition-all flex items-center gap-2">
+              <i class="fa-solid fa-id-badge"></i>
+              <span>BUKA CYBER ID</span>
+            </button>
+            <button onclick="switchTab('forminput')" class="px-6 py-3 rounded-lg font-mono text-xs font-bold text-emerald-300 cyber-panel hover:border-emerald-400 transition-all flex items-center gap-2">
+              <i class="fa-solid fa-terminal"></i>
+              <span>INPUT DATA TERMINAL</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Right: 3D Holographic Reactor Widget -->
+        <div class="lg:col-span-5 flex justify-center">
+          <div class="tilt-wrapper w-full max-w-sm">
+            <div class="tilt-inner cyber-panel p-6 rounded-2xl relative text-center space-y-4">
+              <div class="laser-scan"></div>
+              <div class="text-[10px] font-mono text-emerald-400 tracking-widest border-b border-emerald-500/20 pb-2">
+                HOLOGRAPHIC QUANTUM REACTOR // v2.4
+              </div>
+
+              <!-- Animated Hexagon Core Graphic -->
+              <div class="relative w-44 h-44 mx-auto flex items-center justify-center">
+                <div class="absolute inset-0 rounded-full border-2 border-dashed border-emerald-500/30 animate-spin" style="animation-duration: 20s;"></div>
+                <div class="absolute inset-3 rounded-full border border-cyan-500/40 animate-spin" style="animation-duration: 12s; animation-direction: reverse;"></div>
+                <div class="w-28 h-28 rounded-2xl bg-slate-950 border border-emerald-400 flex flex-col items-center justify-center shadow-[0_0_30px_rgba(16,185,129,0.4)]">
+                  <i class="fa-solid fa-atom text-4xl text-emerald-400 animate-pulse"></i>
+                  <span class="text-[9px] font-mono text-cyan-300 mt-1">99.98% SYNC</span>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-2 text-left font-mono text-[10px]">
+                <div class="p-2 rounded bg-slate-950/60 border border-slate-800">
+                  <span class="text-slate-500 block">CPU LOAD:</span>
+                  <span class="text-emerald-400 font-bold">14.2% OPTIMAL</span>
+                </div>
+                <div class="p-2 rounded bg-slate-950/60 border border-slate-800">
+                  <span class="text-slate-500 block">BUFFER:</span>
+                  <span class="text-cyan-400 font-bold">ZERO OVERFLOW</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 3 Module Cards in Horizontal Ribbon -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
+        <div class="cyber-panel p-6 rounded-xl hover:border-emerald-400 transition-all">
+          <div class="flex items-center space-x-3 mb-3">
+            <i class="fa-solid fa-network-wired text-emerald-400 text-xl"></i>
+            <h3 class="font-orbitron font-bold text-sm text-white">Constellation Mesh</h3>
+          </div>
+          <p class="text-xs text-slate-400 font-light leading-relaxed">
+            Interkoneksi partikel Canvas 2D murni berkecepatan 60 FPS dengan algoritma kedekatan spasial Euclidean interaktif kursor.
+          </p>
+        </div>
+
+        <div class="cyber-panel p-6 rounded-xl hover:border-emerald-400 transition-all">
+          <div class="flex items-center space-x-3 mb-3">
+            <i class="fa-solid fa-wave-square text-cyan-400 text-xl"></i>
+            <h3 class="font-orbitron font-bold text-sm text-white">Dual-Chirp Synthesizer</h3>
+          </div>
+          <p class="text-xs text-slate-400 font-light leading-relaxed">
+            Feedback suara taktil browser menggunakan AudioContext oscillator ganda, menghasilkan nada keyboard sci-fi reaktif.
+          </p>
+        </div>
+
+        <div class="cyber-panel p-6 rounded-xl hover:border-emerald-400 transition-all">
+          <div class="flex items-center space-x-3 mb-3">
+            <i class="fa-solid fa-shield-halved text-teal-400 text-xl"></i>
+            <h3 class="font-orbitron font-bold text-sm text-white">Live Data Sanitizer</h3>
+          </div>
+          <p class="text-xs text-slate-400 font-light leading-relaxed">
+            Validasi regex real-time dengan pratinjau payload JSON seketika saat form diketik dan proteksi anti-spam ganda.
+          </p>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== VIEW 2: DATA DIRI ==================== -->
+    <section id="view-datadiri" class="spa-view hidden space-y-8">
+      
+      <div class="text-center max-w-2xl mx-auto space-y-2">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-emerald-950/80 border border-emerald-500/40 text-[11px] font-mono text-emerald-300">
+          <i class="fa-solid fa-id-card"></i>
+          <span>SECURITY CREDENTIAL // CLEARANCE LEVEL 4</span>
+        </div>
+        <h2 class="font-orbitron font-black text-2xl sm:text-4xl text-white tracking-wider">
+          HORIZONTAL <span class="text-emerald-400">ACCESS PASS</span>
+        </h2>
+        <p class="text-xs font-mono text-slate-400">
+          Kartu identitas mahasiswa berformat horizontal landscape dengan verifikasi biometrik interaktif.
+        </p>
+      </div>
+
+      <!-- Horizontal Security Pass (Wide Format Badge) -->
+      <div class="max-w-4xl mx-auto tilt-wrapper">
+        <div class="tilt-inner cyber-panel p-6 sm:p-8 rounded-2xl relative overflow-hidden">
+          <div class="laser-scan"></div>
+
+          <!-- Badge Top Ribbon -->
+          <div class="flex flex-wrap items-center justify-between border-b border-emerald-500/30 pb-4 mb-6 gap-2">
+            <div class="flex items-center space-x-3">
+              <i class="fa-solid fa-building-columns text-emerald-400 text-2xl"></i>
+              <div>
+                <h3 class="font-orbitron font-bold text-sm text-white">UNIVERSITAS SAINS DAN TEKNOLOGI INDONESIA (USTI)</h3>
+                <p class="text-[10px] font-mono text-emerald-400/80">FAKULTAS TEKNIK DAN INFORMATIKA // JURUSAN TEKNIK INFORMATIKA</p>
+              </div>
+            </div>
+            <div class="px-3 py-1 rounded bg-emerald-900/60 border border-emerald-400/50 text-[10px] font-mono font-bold text-emerald-300 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span>VERIFIED OPERATOR</span>
+            </div>
+          </div>
+
+          <!-- Badge Grid: Avatar Left + Details Right -->
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+            
+            <!-- Left: Avatar & Biometric Scanner Button -->
+            <div class="md:col-span-4 flex flex-col items-center space-y-4">
+              <div class="relative w-36 h-36 rounded-xl p-1 bg-gradient-to-tr from-emerald-500 via-teal-400 to-cyan-500 shadow-[0_0_25px_rgba(16,185,129,0.4)]">
+                <div class="w-full h-full bg-slate-950 rounded-lg flex flex-col items-center justify-center relative overflow-hidden">
+                  <i class="fa-solid fa-user-astronaut text-5xl text-emerald-400 animate-pulse"></i>
+                  <div class="absolute inset-x-0 h-1 bg-emerald-400/80 animate-scanline"></div>
+                </div>
+              </div>
+
+              <!-- Interactive Biometric Fingerprint Button -->
+              <button onclick="scanBiometric()" id="bioBtn" class="px-4 py-2 rounded-lg bg-emerald-950 border border-emerald-500/50 text-[11px] font-mono text-emerald-300 hover:bg-emerald-900/70 transition-all flex items-center gap-2 shadow-lg">
+                <i class="fa-solid fa-fingerprint text-base text-cyan-400"></i>
+                <span id="bioLabel">SCAN BIOMETRIK</span>
+              </button>
+            </div>
+
+            <!-- Right: Student Academic Credentials Table -->
+            <div class="md:col-span-8 space-y-3 text-xs font-mono">
+              <div class="p-3 rounded-lg bg-slate-950/70 border border-slate-800">
+                <span class="text-slate-500 block text-[10px]">NAMA MAHASISWA:</span>
+                <span class="text-base font-bold text-white font-orbitron tracking-wide text-emerald-300">FAUZAN ALKAUTSAR WARIZ</span>
+              </div>
+
+              <div class="grid grid-cols-2 gap-2">
+                <div class="p-3 rounded-lg bg-slate-950/70 border border-slate-800">
+                  <span class="text-slate-500 block text-[10px]">NIM MAHASISWA:</span>
+                  <span class="text-sm font-bold text-emerald-400">2517052802017</span>
+                </div>
+                <div class="p-3 rounded-lg bg-slate-950/70 border border-slate-800">
+                  <span class="text-slate-500 block text-[10px]">SEMESTER / TAHUN:</span>
+                  <span class="text-sm font-bold text-white">GANJIL / 2026</span>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-2">
+                <div class="p-3 rounded-lg bg-slate-950/70 border border-slate-800">
+                  <span class="text-slate-500 block text-[10px]">PROGRAM STUDI:</span>
+                  <span class="text-xs text-slate-200">Teknik Informatika</span>
+                </div>
+                <div class="p-3 rounded-lg bg-slate-950/70 border border-slate-800">
+                  <span class="text-slate-500 block text-[10px]">MATA KULIAH:</span>
+                  <span class="text-xs text-cyan-300">Pemrograman Web I</span>
+                </div>
+              </div>
+
+              <!-- Extra Secret Info Revealed on Biometric Scan -->
+              <div id="bioSecret" class="hidden p-3 rounded-lg bg-emerald-950/60 border border-emerald-400/60 text-emerald-300 text-[11px] animate-fade-in">
+                <i class="fa-solid fa-lock-open mr-1"></i>
+                <span>BIOMETRIC MATCH: ACCESS LEVEL A-1 // REPOSITORY REPO: USTI/WEB1/FAUZAN</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Bottom Barcode Bar -->
+          <div class="mt-6 pt-4 border-t border-emerald-500/20 flex flex-wrap items-center justify-between gap-2 text-[10px] font-mono">
+            <div class="flex items-center space-x-1">
+              <span class="w-1 h-6 bg-emerald-400"></span><span class="w-2 h-6 bg-emerald-400"></span><span class="w-0.5 h-6 bg-emerald-400"></span>
+              <span class="w-1.5 h-6 bg-emerald-400"></span><span class="w-2.5 h-6 bg-emerald-400"></span><span class="w-1 h-6 bg-emerald-400"></span>
+              <span class="ml-2 text-slate-400">USTI-2517052802017-OK</span>
+            </div>
+            <div class="text-emerald-400">
+              <i class="fa-solid fa-shield-halved mr-1"></i>
+              <span>CRYPTOGRAPHIC PROTOCOL TLS 1.3</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ==================== VIEW 3: FORM INPUT DATA ==================== -->
+    <section id="view-forminput" class="spa-view hidden space-y-8">
+      
+      <div class="text-center max-w-2xl mx-auto space-y-2">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-emerald-950/80 border border-emerald-500/40 text-[11px] font-mono text-emerald-300">
+          <i class="fa-solid fa-database"></i>
+          <span>QUANTUM INGESTION // DUAL-PANE REALTIME INSPECTOR</span>
+        </div>
+        <h2 class="font-orbitron font-black text-2xl sm:text-4xl text-white tracking-wider">
+          TERMINAL <span class="text-emerald-400">DATA DISPATCH</span>
+        </h2>
+        <p class="text-xs font-mono text-slate-400">
+          Lakukan transmisi data dengan inspeksi langsung struktur JSON secara real-time di panel sebelah kiri.
+        </p>
+      </div>
+
+      <!-- Dual-Pane Container: Left JSON Inspector + Right Form -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+        <!-- Left: Live JSON Inspector -->
+        <div class="lg:col-span-5 cyber-panel p-6 rounded-2xl space-y-4">
+          <div class="flex items-center justify-between border-b border-emerald-500/30 pb-2">
+            <span class="font-orbitron text-xs font-bold text-white flex items-center gap-2">
+              <i class="fa-solid fa-code text-cyan-400"></i>
+              <span>LIVE JSON PAYLOAD</span>
+            </span>
+            <span class="text-[10px] font-mono text-emerald-400 animate-pulse">● LIVE STREAM</span>
+          </div>
+
+          <pre id="jsonPreview" class="bg-slate-950 rounded-xl p-4 font-mono text-[11px] text-emerald-400 overflow-x-auto leading-relaxed border border-slate-800">
+{
+  "sender": "",
+  "nim": "",
+  "email": "",
+  "category": "",
+  "payload": "",
+  "timestamp": "READY",
+  "status": "AWAITING_INPUT"
+}</pre>
+
+          <div class="p-3 rounded-lg bg-emerald-950/40 border border-emerald-500/20 text-[11px] font-mono text-slate-300">
+            <i class="fa-solid fa-circle-info text-cyan-400 mr-1.5"></i>
+            <span>Setiap karakter yang Anda ketik di formulir sebelah kanan langsung dikonversi menjadi format payload transmisi.</span>
+          </div>
+        </div>
+
+        <!-- Right: Input Form -->
+        <div class="lg:col-span-7 cyber-panel p-6 sm:p-8 rounded-2xl relative">
+          <form id="cyberForm" onsubmit="handleFormSubmit(event)" novalidate class="space-y-5">
+            
+            <!-- Nama -->
+            <div class="space-y-1">
+              <label class="block font-mono text-xs font-semibold text-slate-300 flex justify-between">
+                <span>NAMA PENGIRIM:</span>
+                <span id="nameStatus" class="text-[10px] text-slate-500">Min. 3 karakter</span>
+              </label>
+              <input type="text" id="inputName" placeholder="Fauzan Alkautsar Wariz" oninput="updateLiveJSON(); validateField('name');" 
+                     class="w-full px-4 py-2.5 rounded-lg bg-slate-950 border border-slate-700 text-white text-xs font-mono focus:outline-none transition-all">
+              <p id="nameError" class="text-[10px] font-mono text-rose-400 hidden"></p>
+            </div>
+
+            <!-- NIM -->
+            <div class="space-y-1">
+              <label class="block font-mono text-xs font-semibold text-slate-300 flex justify-between">
+                <span>NIM MAHASISWA:</span>
+                <span id="nimStatus" class="text-[10px] text-slate-500">Min. 8 digit angka</span>
+              </label>
+              <input type="text" id="inputNim" placeholder="2517052802017" oninput="updateLiveJSON(); validateField('nim');" 
+                     class="w-full px-4 py-2.5 rounded-lg bg-slate-950 border border-slate-700 text-white text-xs font-mono focus:outline-none transition-all">
+              <p id="nimError" class="text-[10px] font-mono text-rose-400 hidden"></p>
+            </div>
+
+            <!-- Email -->
+            <div class="space-y-1">
+              <label class="block font-mono text-xs font-semibold text-slate-300 flex justify-between">
+                <span>EMAIL RESMI:</span>
+                <span id="emailStatus" class="text-[10px] text-slate-500">Format email valid</span>
+              </label>
+              <input type="email" id="inputEmail" placeholder="fauzan@usti.ac.id" oninput="updateLiveJSON(); validateField('email');" 
+                     class="w-full px-4 py-2.5 rounded-lg bg-slate-950 border border-slate-700 text-white text-xs font-mono focus:outline-none transition-all">
+              <p id="emailError" class="text-[10px] font-mono text-rose-400 hidden"></p>
+            </div>
+
+            <!-- Kategori -->
+            <div class="space-y-1">
+              <label class="block font-mono text-xs font-semibold text-slate-300">KLASIFIKASI PERMINTAAN:</label>
+              <select id="inputCategory" onchange="updateLiveJSON(); validateField('category');" 
+                      class="w-full px-4 py-2.5 rounded-lg bg-slate-950 border border-slate-700 text-white text-xs font-mono focus:outline-none">
+                <option value="" disabled selected>-- Pilih Klasifikasi --</option>
+                <option value="Proyek Rekayasa TI">01. Proyek Rekayasa Web TI</option>
+                <option value="Akses Quantum Clearance">02. Akses Quantum Clearance</option>
+                <option value="Laporan Tugas Web I">03. Laporan Kuis Pemrograman Web I</option>
+              </select>
+              <p id="categoryError" class="text-[10px] font-mono text-rose-400 hidden"></p>
+            </div>
+
+            <!-- Pesan -->
+            <div class="space-y-1">
+              <label class="block font-mono text-xs font-semibold text-slate-300 flex justify-between">
+                <span>RINCIAN DATA PAYLOAD:</span>
+                <span class="text-[10px] text-slate-500">Min. 10 karakter</span>
+              </label>
+              <textarea id="inputMessage" rows="3" placeholder="Ketikkan payload teks di sini..." oninput="updateLiveJSON(); validateField('message');"
+                        class="w-full p-3 rounded-lg bg-slate-950 border border-slate-700 text-white text-xs font-mono focus:outline-none transition-all"></textarea>
+              <p id="messageError" class="text-[10px] font-mono text-rose-400 hidden"></p>
+            </div>
+
+            <button type="submit" id="submitBtn" 
+                    class="w-full py-3.5 rounded-lg font-mono text-xs font-bold text-slate-950 bg-gradient-to-r from-emerald-400 to-cyan-400 hover:from-emerald-300 hover:to-cyan-300 shadow-[0_0_20px_rgba(16,185,129,0.5)] transition-all flex items-center justify-center gap-2 cursor-pointer">
+              <span id="btnSpinner" class="hidden"><i class="fa-solid fa-circle-notch fa-spin"></i></span>
+              <span id="btnText">TRANSMISIKAN PAYLOAD KE USTI</span>
+            </button>
+          </form>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- SUCCESS MODAL -->
+  <div id="successModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="relative w-full max-w-md cyber-panel p-6 rounded-2xl border-emerald-400/60 shadow-[0_0_50px_rgba(16,185,129,0.4)] text-center space-y-4">
+      <div class="w-14 h-14 mx-auto rounded-full bg-emerald-950 border border-emerald-400 flex items-center justify-center text-emerald-400 text-2xl shadow-lg">
+        <i class="fa-solid fa-check animate-bounce"></i>
+      </div>
+      <h3 class="font-orbitron font-bold text-base text-white">PAYLOAD TRANSMITTED!</h3>
+      <p class="text-xs font-mono text-emerald-300">STATUS 200 OK — DOKUMEN TERSIMPAN DI MAINFRAME USTI</p>
+
+      <div class="p-3 rounded bg-slate-950 text-left font-mono text-[11px] space-y-1.5 border border-slate-800">
+        <div><span class="text-slate-500">PENGIRIM:</span> <span id="resName" class="text-white font-bold"></span></div>
+        <div><span class="text-slate-500">NIM:</span> <span id="resNim" class="text-emerald-400"></span></div>
+        <div><span class="text-slate-500">KODE TOKEN:</span> <span id="resToken" class="text-cyan-400 font-bold"></span></div>
+      </div>
+
+      <button onclick="closeSuccessModal()" class="w-full py-2.5 rounded font-mono text-xs font-bold text-slate-950 bg-emerald-400 hover:bg-emerald-300 transition-all">
+        SELESAI & ENTRI BARU
+      </button>
+    </div>
+  </div>
+
+  <!-- FLOATING BOTTOM CYBER DOCK (MACOS / CYBERPUNK HUD STYLE) -->
+  <nav class="fixed bottom-4 inset-x-0 mx-auto w-fit z-40 px-3 py-2 rounded-2xl bg-slate-950/90 backdrop-blur-2xl border border-emerald-500/40 shadow-[0_0_35px_rgba(16,185,129,0.35)] flex items-center space-x-2">
+    <button onclick="switchTab('beranda')" id="dock-beranda" class="dock-btn px-4 py-2 rounded-xl font-mono text-xs font-bold flex items-center gap-2 text-emerald-300 bg-emerald-950/80 border border-emerald-500/50 shadow-md">
+      <i class="fa-solid fa-house"></i>
+      <span>BERANDA</span>
+    </button>
+    <button onclick="switchTab('datadiri')" id="dock-datadiri" class="dock-btn px-4 py-2 rounded-xl font-mono text-xs font-semibold flex items-center gap-2 text-slate-400 hover:text-emerald-300 transition-all">
+      <i class="fa-solid fa-id-card"></i>
+      <span>DATA DIRI</span>
+    </button>
+    <button onclick="switchTab('forminput')" id="dock-forminput" class="dock-btn px-4 py-2 rounded-xl font-mono text-xs font-semibold flex items-center gap-2 text-slate-400 hover:text-emerald-300 transition-all">
+      <i class="fa-solid fa-satellite-dish"></i>
+      <span>FORM TERMINAL</span>
+    </button>
+  </nav>
+
+  <script>
+    // Audio Synth Engine
+    let audioCtx = null;
+    let sfxEnabled = true;
+
+    function initAudio() {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+    }
+
+    function playTone(freq, type = 'sine', duration = 0.08, gainVal = 0.05) {
+      if (!sfxEnabled) return;
+      try {
+        initAudio();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        gain.gain.setValueAtTime(gainVal, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+      } catch (e) {}
+    }
+
+    function soundClick() {
+      playTone(880, 'sine', 0.06, 0.05);
+      setTimeout(() => playTone(1320, 'sine', 0.08, 0.04), 35);
+    }
+
+    function soundSuccess() {
+      [523.25, 659.25, 783.99, 1046.50].forEach((freq, idx) => {
+        setTimeout(() => playTone(freq, 'triangle', 0.2, 0.07), idx * 60);
+      });
+    }
+
+    function soundError() {
+      playTone(160, 'sawtooth', 0.2, 0.08);
+    }
+
+    function toggleSFX() {
+      sfxEnabled = !sfxEnabled;
+      document.getElementById('sfxText').innerText = sfxEnabled ? "SFX: ON" : "SFX: OFF";
+      soundClick();
+    }
+
+    // Live UTC Clock
+    function updateClock() {
+      const now = new Date();
+      document.getElementById('liveClock').innerText = now.toTimeString().split(' ')[0] + ' WIB';
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // SPA Switcher via Bottom Dock
+    function switchTab(tab) {
+      soundClick();
+      ['beranda', 'datadiri', 'forminput'].forEach(t => {
+        document.getElementById('view-' + t).classList.add('hidden');
+        document.getElementById('dock-' + t).className = "dock-btn px-4 py-2 rounded-xl font-mono text-xs font-semibold flex items-center gap-2 text-slate-400 hover:text-emerald-300 transition-all";
+      });
+      document.getElementById('view-' + tab).classList.remove('hidden');
+      document.getElementById('dock-' + tab).className = "dock-btn px-4 py-2 rounded-xl font-mono text-xs font-bold flex items-center gap-2 text-emerald-300 bg-emerald-950/80 border border-emerald-500/50 shadow-md";
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Interactive CLI Typing Effect
+    const cliPhrases = [
+      "status --integrity-check=passed",
+      "fetch --student-credentials=USTI",
+      "compile --target=SinglePageApp",
+      "listen --port=8080 --secure"
+    ];
+    let cliPIdx = 0, cliCIdx = 0, cliDel = false;
+    function typeCli() {
+      const cur = cliPhrases[cliPIdx];
+      document.getElementById('cliType').innerText = cliDel ? cur.substring(0, cliCIdx - 1) : cur.substring(0, cliCIdx + 1);
+      cliCIdx = cliDel ? cliCIdx - 1 : cliCIdx + 1;
+      let spd = cliDel ? 30 : 60;
+      if (!cliDel && cliCIdx === cur.length) { spd = 1800; cliDel = true; }
+      else if (cliDel && cliCIdx === 0) { cliDel = false; cliPIdx = (cliPIdx + 1) % cliPhrases.length; spd = 400; }
+      setTimeout(typeCli, spd);
+    }
+    typeCli();
+
+    // Biometric Scanner Button
+    function scanBiometric() {
+      soundClick();
+      const btn = document.getElementById('bioBtn');
+      const label = document.getElementById('bioLabel');
+      const secret = document.getElementById('bioSecret');
+      label.innerText = "SCANNING...";
+      setTimeout(() => {
+        soundSuccess();
+        label.innerText = "VERIFIED ✓";
+        secret.classList.remove('hidden');
+      }, 700);
+    }
+
+    // Live JSON Inspector Updater
+    function updateLiveJSON() {
+      const data = {
+        sender: document.getElementById('inputName').value.trim(),
+        nim: document.getElementById('inputNim').value.trim(),
+        email: document.getElementById('inputEmail').value.trim(),
+        category: document.getElementById('inputCategory').value,
+        payload: document.getElementById('inputMessage').value.trim(),
+        timestamp: new Date().toISOString(),
+        status: "BUFFERING"
+      };
+      document.getElementById('jsonPreview').innerText = JSON.stringify(data, null, 2);
+    }
+
+    function validateField(fieldName) {
+      let isValid = false;
+      if (fieldName === 'name') {
+        const val = document.getElementById('inputName').value.trim();
+        const err = document.getElementById('nameError');
+        if (val.length < 3) { err.innerText = "Min 3 karakter."; err.classList.remove('hidden'); }
+        else { err.classList.add('hidden'); isValid = true; }
+      }
+      if (fieldName === 'nim') {
+        const val = document.getElementById('inputNim').value.trim();
+        const err = document.getElementById('nimError');
+        if (!/^[0-9]{8,20}$/.test(val)) { err.innerText = "Harus angka min 8 digit."; err.classList.remove('hidden'); }
+        else { err.classList.add('hidden'); isValid = true; }
+      }
+      if (fieldName === 'email') {
+        const val = document.getElementById('inputEmail').value.trim();
+        const err = document.getElementById('emailError');
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)) { err.innerText = "Format email salah."; err.classList.remove('hidden'); }
+        else { err.classList.add('hidden'); isValid = true; }
+      }
+      if (fieldName === 'category') {
+        const val = document.getElementById('inputCategory').value;
+        const err = document.getElementById('categoryError');
+        if (!val) { err.innerText = "Pilih kategori."; err.classList.remove('hidden'); }
+        else { err.classList.add('hidden'); isValid = true; }
+      }
+      if (fieldName === 'message') {
+        const val = document.getElementById('inputMessage').value.trim();
+        const err = document.getElementById('messageError');
+        if (val.length < 10) { err.innerText = "Min 10 karakter teks."; err.classList.remove('hidden'); }
+        else { err.classList.add('hidden'); isValid = true; }
+      }
+      return isValid;
+    }
+
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      if (!validateField('name') || !validateField('nim') || !validateField('email') || !validateField('category') || !validateField('message')) {
+        soundError(); return;
+      }
+      soundClick();
+      const btn = document.getElementById('submitBtn');
+      btn.disabled = true;
+      document.getElementById('btnSpinner').classList.remove('hidden');
+      document.getElementById('btnText').innerText = "DISPATCHING...";
+
+      setTimeout(() => {
+        document.getElementById('resName').innerText = document.getElementById('inputName').value;
+        document.getElementById('resNim').innerText = document.getElementById('inputNim').value;
+        document.getElementById('resToken').innerText = 'USTI-CLI-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+        btn.disabled = false;
+        document.getElementById('btnSpinner').classList.add('hidden');
+        document.getElementById('btnText').innerText = "TRANSMISIKAN PAYLOAD KE USTI";
+        soundSuccess();
+        document.getElementById('successModal').classList.remove('pointer-events-none', 'opacity-0');
+        document.getElementById('successModal').classList.add('opacity-100');
+      }, 1200);
+    }
+
+    function closeSuccessModal() {
+      soundClick();
+      document.getElementById('successModal').classList.add('pointer-events-none', 'opacity-0');
+      document.getElementById('cyberForm').reset();
+      updateLiveJSON();
+    }
+
+    // Canvas Background
+    const canvas = document.getElementById('particleCanvas');
+    const ctx = canvas.getContext('2d');
+    let pts = [];
+    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+    window.addEventListener('resize', resize); resize();
+    for (let i = 0; i < 65; i++) pts.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, vx: (Math.random()-0.5)*0.6, vy: (Math.random()-0.5)*0.6 });
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#10b981';
+      for (let i = 0; i < pts.length; i++) {
+        pts[i].x += pts[i].vx; pts[i].y += pts[i].vy;
+        if (pts[i].x < 0 || pts[i].x > canvas.width) pts[i].vx *= -1;
+        if (pts[i].y < 0 || pts[i].y > canvas.height) pts[i].vy *= -1;
+        ctx.beginPath(); ctx.arc(pts[i].x, pts[i].y, 1.5, 0, Math.PI*2); ctx.fill();
+        for (let j = i+1; j < pts.length; j++) {
+          let dx = pts[i].x - pts[j].x, dy = pts[i].y - pts[j].y, d = Math.sqrt(dx*dx + dy*dy);
+          if (d < 100) {
+            ctx.strokeStyle = `rgba(16, 185, 129, ${(1-d/100)*0.25})`;
+            ctx.beginPath(); ctx.moveTo(pts[i].x, pts[i].y); ctx.lineTo(pts[j].x, pts[j].y); ctx.stroke();
+          }
+        }
+      }
+      requestAnimationFrame(draw);
+    }
+    draw();
+  </script>
+</body>
+</html>
